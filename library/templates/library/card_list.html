@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<section class="hero is-primary">
+<div class="hero-body">
+  <div class="container">
+    <h1 class="title">Vos cartes</h1>
+    <h2 class="subtitle">Gérez toutes les cartes Nelligan de la famille ici !</h2>
+  </div>
+</div>
+</section>
+{% endblock hero %}
+
+{% block content %}
+<table class="table">
+<thead>
+  <tr>
+    <th>Label</th>
+    <th>Code</th>
+    <th>Pin</th>
+    <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+  {% for card in object_list %}
+  <tr>
+    <th>{{card.label}}</th>
+    <td>{{card.code}}</td>
+    <td>xxxxxxxxx</td>
+    <td>
+      <a href="{% url 'card_delete' card.id %}" title="Enlever"><i class="fa fa-times"></i></a>
+      <a href="{% url 'card_edit' card.id %}" title="Editer"><i class="fa fa-pencil-square-o"></i></a>
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% endblock content %}

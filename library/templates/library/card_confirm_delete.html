@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<section class="hero is-primary">
+<div class="hero-body">
+  <div class="container">
+    <h1 class="title">Carte</h1>
+    <h2 class="subtitle">Gérez toutes les cartes Nelligan de la famille ici !</h2>
+  </div>
+</div>
+</section>
+{% endblock hero %}
+
+{% block content %}
+<form class="login" method="POST">
+  {% csrf_token %}
+  {{ form }}
+  <p>Sur ?</p>
+  <button class="button is-primary" type="submit">Valider</button>
+</form>
+{% endblock content %}

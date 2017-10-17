@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block hero %}
+<section class="hero is-primary">
+<div class="hero-body">
+  <div class="container">
+    <h1 class="title">Vos réservations</h1>
+    <h2 class="subtitle">Vos réservations consolidés sur toutes vos cartes.</h2>
+  </div>
+</div>
+</section>
+{% endblock hero %}
+
+{% block content %}
+<table class="table">
+<thead>
+  <tr>
+    <th>Carte</th>
+    <th>Titre</th>
+    <th>A recupérer à</th>
+    <th>Réservation invalide au</th>
+    </tr>
+</thead>
+<tbody>
+  {% for book in books %}
+  <tr>
+    <th>{{book.card.label}}</th>
+    <td>{{book.name}}</td>
+    <td>{{book.pickup}}</td>
+    <td>{{book.duedate|date:"y-m-d"}}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% endblock content %}

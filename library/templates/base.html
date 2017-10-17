@@ -1,0 +1,92 @@
+{% extends 'bulma/base.html' %}
+
+{% block title %}Nelligan++{% endblock %}
+
+{% block header %}
+  <div class="container">
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/"><p class="is-size-4"><strong>Nelligan++</strong></p></a>
+
+        <div class="navbar-burger burger" data-target="navMenuExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div id="navMenuExample" class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link  is-active" href="{% url 'index' %}">Mes livres</a>
+            <div class="navbar-dropdown ">
+              <a class="navbar-item " href="{% url 'hold' %}">Mes réservations</a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"href="{% url 'card_index' %}">Mes cartes</a>
+            <div class="navbar-dropdown ">
+              <a class="navbar-item " href="{% url 'card_add' %}">Ajouter une carte</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          {% if user.is_authenticated %}
+            <a class="navbar-item is-hidden-desktop-only" href="{% url 'account_logout' %}">Logout</a>
+          {% else %}
+            <a class="navbar-item is-hidden-desktop-only" href="{% url 'account_login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </div>
+{% endblock header %}
+
+{% block footer %}
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Bulma</strong> by <a href="http://jgthms.com">Jeremy Thomas</a>. <strong>Django-Bulma</strong> by <a
+            href="http://timonweb.com">Tim Kamanin</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. Build nicely.
+        </p>
+        <p>
+          <a class="icon" href="https://github.com/jgthms/bulma">
+            <i class="fa fa-github"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+{% endblock footer %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Get all "navbar-burger" elements
+  var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach(function ($el) {
+      $el.addEventListener('click', function () {
+
+        // Get the target from the "data-target" attribute
+        var target = $el.dataset.target;
+        var $target = document.getElementById(target);
+
+        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+        $el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+});
+</script>
+{% endblock extra_javascript %}
