@@ -1,17 +1,21 @@
 from django import forms
-from .models import Family
-from django.utils.html import escape
+from .models import *
+from .services import *
 
-def add_class_tag(original_function):
-    """Adds the 'required' CSS class and an asterisks to required field labels."""
-    def required_tag(self, contents=None, attrs=None, label_suffix=None):
-        contents = contents or escape(self)
-        attrs = {'class': 'input'}
-        return original_function(self, contents, attrs, label_suffix)
-    return required_tag
+class CardForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = ['label', 'code', 'pin']
 
-def decorate_bound_field():
-  from django.forms.forms import BoundField
-  BoundField.field = add_class_tag(BoundField.field)
+    def clean(self):
+        cleaned_data = super(CardForm, self).clean()
+        code = cleaned_data.get("code")
+        pin = cleaned_data.get("pin")
 
-decorate_bound_field()
+        if not check_card(code, pin):
+            msg = "Can't logon on Nelligan"
+            self.add_error('code', msg)
+            self.add_error('pin', msg)
+
+class BookSearchForm(forms.Form):
+    search = forms.CharField()

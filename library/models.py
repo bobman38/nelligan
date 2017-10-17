@@ -13,5 +13,14 @@ class Card(models.Model):
 
 class Book(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    barcode = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
     duedate = models.DateTimeField('Due Date')
+    KIND_CHOICES = (
+        (0, 'Loan'),
+        (1, 'Hold'),
+    )
+    kind = models.IntegerField(choices=KIND_CHOICES)
+    pickup = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
