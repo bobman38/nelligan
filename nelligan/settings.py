@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['latitude7370.lan']
 
 INSTALLED_APPS = [
     'library.apps.LibraryConfig',
-    'bulma.bulma',
+    'bulma',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
