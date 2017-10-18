@@ -24,7 +24,7 @@ SECRET_KEY = 'rbo4y@0@bzcf7@#1u^mxoq)7_3^o=vop)o6w39tr8=8a3c%h5z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['latitude7370.lan']
+ALLOWED_HOSTS = ['latitude7370.lan', 'localhost', 'nelligan.herokuapp.com']
 
 # Application definition
 
