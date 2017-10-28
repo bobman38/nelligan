@@ -14,10 +14,7 @@ def update_book_on_card(card):
     tdiff = datetime.now(timezone.utc) - card.lastrefresh
 
     # check if we need to update the card based on the lst update time
-    if(tdiff.total_seconds() > 3600):
-        # lets update lastrefresh first !
-        card.lastrefresh = datetime.now(timezone.utc)
-        card.save()
+    if(tdiff.total_seconds() > 3):
 
         # if yes then purge all existing book on the card
         Book.objects.filter(card=card).delete()
@@ -39,7 +36,9 @@ def update_book_on_card(card):
             book.kind = 0
             if duedate != None:
                 duedate = duedate.rstrip().lstrip(" DUE ")
+                duedate = duedate[:8]
             # format date 17-09-25
+            print(duedate)
             book.duedate = datetime.strptime(duedate, '%y-%m-%d')
             book.save()
 
@@ -60,3 +59,7 @@ def update_book_on_card(card):
                     # format date 17-09-25
                     book.duedate = datetime.strptime(duedate, '%y-%m-%d')
                     book.save()
+
+        # lets update lastrefresh first !
+        card.lastrefresh = datetime.now(timezone.utc)
+        card.save()
