@@ -16,6 +16,7 @@
 <thead>
   <tr>
     <th>Carte</th>
+    <th>Code barre</th>
     <th>Titre</th>
     <th>A rendre le</th>
     <th>Action</th>
@@ -25,8 +26,9 @@
   {% for book in books %}
   <tr>
     <th>{{book.card.label}}</th>
+    <td>{{book.barcode}}</td>
     <td>{{book.name}}</td>
-    <td>{{book.duedate|date:"y-m-d"}}</td>
+    <td>{{book.duedate|date:"y-m-d"}} <strong>[{{book.renewed}}]<strong></td>
     <td>
       <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a>
     </td>

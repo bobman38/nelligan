@@ -22,5 +22,6 @@ class Book(models.Model):
     )
     kind = models.IntegerField(choices=KIND_CHOICES)
     pickup = models.CharField(max_length=200)
+    renewed = models.IntegerField(default=0)
     def __str__(self):
         return self.name

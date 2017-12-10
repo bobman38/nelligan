@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
@@ -38,15 +38,8 @@ def hold(request):
 @login_required
 def book_renew(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    cards = Card.objects.filter(user=request.user)
-    if len(cards) == 0:
-        return render(request, 'library/index_nocard.html')
-    for card in cards:
-        update_book_on_card(card)
-    books = Book.objects.filter(card__user=request.user, kind=1).order_by('duedate')
-    return render(request, 'library/hold.html', {
-        'books': books,
-    })
+    renew_book(book, request)
+    return redirect('index')
 
 class CardIndexView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
