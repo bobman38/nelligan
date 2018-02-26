@@ -132,3 +132,5 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+ADMINS = (('Julien Bras', 'julienbras@sidoine.org'),)
