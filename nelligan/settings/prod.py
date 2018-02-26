@@ -24,7 +24,7 @@ SECRET_KEY = 'rbo4y@0@bzcf7@#1u^mxoq)7_3^o=vop)o6w39tr8=8a3c%h5z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['nelligan.herokuapp.com', 'nelligan.sidoine.org']
+ALLOWED_HOSTS = ['nelligan.herokuapp.com', 'nelligan.sidoine.org', 'localhost']
 
 # Application definition
 
@@ -134,20 +134,3 @@ LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 ADMINS = (('Julien Bras', 'julienbras@sidoine.org'),)
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
-}
-

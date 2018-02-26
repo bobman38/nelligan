@@ -32,7 +32,7 @@ def update_book_on_card(card):
             book = Book()
             book.card = card
             book.barcode = item.select_one("td.patFuncBarcode").text
-            book.name = item.select_one("span.patFuncTitleMain").string
+            book.name = item.select_one("span.patFuncTitleMain").string[:200]
             duedate = item.select_one("td.patFuncStatus").text
             #print(duedate)
             book.kind = 0
@@ -113,6 +113,7 @@ def renew_book(book, request):
                             duedate = duedate[:8]
                         # format date 17-09-25
                         #print(duedate)
+                        book.renewed = book.renewed +1
                         book.duedate = datetime.strptime(duedate, '%y-%m-%d')
                         book.save()
                         messages.success(request, 'Renouvellement effectué !')
