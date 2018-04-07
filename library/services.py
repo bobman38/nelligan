@@ -15,7 +15,7 @@ def update_book_on_card(card):
     tdiff = datetime.now(timezone.utc) - card.lastrefresh
 
     # check if we need to update the card based on the lst update time
-    if(tdiff.total_seconds() > 600):
+    if(tdiff.total_seconds() > 60):
 
         # if yes then purge all existing book on the card
         Book.objects.filter(card=card).delete()
@@ -48,6 +48,13 @@ def update_book_on_card(card):
                 book.renewed = renewed
             book.duedate = datetime.strptime(duedate, '%y-%m-%d')
             book.save()
+
+        # search for fines
+        card.fine = None
+        fine = soup.select_one('span.pat-transac a')
+        if fine != None:
+            card.fine = fine.text
+            #print(card.label + ": " + fine.text)
 
         # Grab holds (reserved)
         for a in soup.findAll('a'):
@@ -99,9 +106,9 @@ def renew_book(book, request):
                 if(book.barcode == item.select_one("td.patFuncBarcode").text):
                     duedate = item.select_one("td.patFuncStatus").text
                     if("ON HOLD" in duedate):
-                        messages.warning(request, 'Renouvellement impossible, livre reservé.')
+                        messages.warning(request, book.name + ': Renouvellement impossible, livre reservé.')
                     elif("TOO SOON TO RENEW" in duedate):
-                        messages.info(request, 'Renouvellement impossible, trop tôt !')
+                        messages.info(request, book.name + ': Renouvellement impossible, trop tôt !')
                     else:
                         # TOCHECK THIS PART ! not the same as classic book
                         # classic string  DUE 17-12-23 <em><b>  RENEWED</b><br />Now due 18-01-05</em> <span  class="patFuncRenewCount">Renewed 1 time</span>
@@ -116,5 +123,5 @@ def renew_book(book, request):
                         book.renewed = book.renewed +1
                         book.duedate = datetime.strptime(duedate, '%y-%m-%d')
                         book.save()
-                        messages.success(request, 'Renouvellement effectué !')
+                        messages.success(request, book.name + ': Renouvellement effectué !')
 

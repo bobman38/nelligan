@@ -18,6 +18,7 @@
     <th>Label</th>
     <th>Code</th>
     <th>Pin</th>
+    <th>Fine</th>
     <th>Action</th>
     </tr>
 </thead>
@@ -27,6 +28,7 @@
     <th>{{card.label}}</th>
     <td>{{card.code}}</td>
     <td>xxxxxxxxx</td>
+    <td>{{card.fine|default_if_none:""}}</td>
     <td>
       <a href="{% url 'card_delete' card.id %}" title="Enlever"><i class="fa fa-times"></i></a>
       <a href="{% url 'card_edit' card.id %}" title="Editer"><i class="fa fa-pencil-square-o"></i></a>

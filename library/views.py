@@ -24,6 +24,14 @@ def index(request):
     })
 
 @login_required
+def renew(request):
+    books = Book.objects.filter(card__user=request.user, kind=0)
+    for book in books:
+        renew_book(book, request)
+    messages.info(request, 'Renouvellement en masse terminé.')
+    return redirect('index')
+
+@login_required
 def hold(request):
     cards = Card.objects.filter(user=request.user)
     if len(cards) == 0:

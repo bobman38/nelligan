@@ -8,6 +8,7 @@ class Card(models.Model):
     code = models.CharField(max_length=200)
     pin = models.CharField(max_length=200)
     lastrefresh = models.DateTimeField()
+    fine = models.CharField(max_length=200, null=True)
     def __str__(self):
         return self.label
 

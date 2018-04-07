@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^renew$', views.renew, name='renew'),
     url(r'^book/(?P<pk>[0-9]+)/renew$', views.book_renew, name='book_renew'),
     url(r'^hold$', views.hold, name='hold'),
     url(r'^card$', views.CardIndexView.as_view(), name='card_index'),
