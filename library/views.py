@@ -14,13 +14,17 @@ from django.core.urlresolvers import reverse_lazy
 @login_required
 def index(request):
     cards = Card.objects.filter(user=request.user)
+    form = BookSearchForm
     if len(cards) == 0:
-        return render(request, 'library/index_nocard.html')
+        return render(request, 'library/index_nocard.html', {
+        'form': form,
+        })
     for card in cards:
         update_book_on_card(card)
     books = Book.objects.filter(card__user=request.user, kind=0).order_by('duedate')
     return render(request, 'library/index.html', {
         'books': books,
+        'form': form,
     })
 
 @login_required
@@ -41,6 +45,45 @@ def hold(request):
     books = Book.objects.filter(card__user=request.user, kind=1).order_by('duedate')
     return render(request, 'library/hold.html', {
         'books': books,
+    })
+
+@login_required
+def hold_cancel(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    cancel_hold(book, request)
+    return redirect('hold')
+
+@login_required
+def search(request):
+    if request.method == 'POST':
+        form = BookSearchForm(request.POST)
+        if form.is_valid():
+            results = search_book(form.cleaned_data['search'], request)
+            return render(request, 'library/search.html', {
+                'results': results,
+                'form': form,
+            })
+    return redirect('index')
+
+@login_required
+def book_reserve(request, code):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            reserve_book(form.instance, request)
+            return redirect('index')
+        else:
+            book = search_book_info(code, request)
+    else:
+        book = search_book_info(code, request)
+        form = BookForm(instance=book)
+
+    formSearch = BookSearchForm
+    return render(request, 'library/book_reserve.html', {
+        #'results': results,
+        'form': form,
+        'formSearch': formSearch,
+        'book': book,
     })
 
 @login_required

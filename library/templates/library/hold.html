@@ -18,7 +18,9 @@
     <th>Carte</th>
     <th>Titre</th>
     <th>A recupérer à</th>
+    <th>Status</th>
     <th>Réservation invalide au</th>
+    <th>Annuler</th>
     </tr>
 </thead>
 <tbody>
@@ -27,7 +29,11 @@
     <th>{{book.card.label}}</th>
     <td>{{book.name}}</td>
     <td>{{book.pickup}}</td>
+    <td>{{book.status}}</td>
     <td>{{book.duedate|date:"y-m-d"}}</td>
+    <td>
+      <a href="{% url 'hold_cancel' book.id %}" title="Annuler"><i class="fa fa-close"></i></a>
+    </td>
   </tr>
   {% endfor %}
 </tbody>

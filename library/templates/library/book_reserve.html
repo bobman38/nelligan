@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load bulma_tags %}
+
+{% block hero %}
+<section class="hero is-primary">
+<div class="hero-body">
+  <div class="container">
+    <h1 class="title">Votre recherche</h1>
+    <h2 class="subtitle">Cet écran permet de réserver des livres</h2>
+  </div>
+</div>
+</section>
+{% endblock hero %}
+
+{% block content %}
+
+<form class="login" action="{% url 'book_reserve' book.code %}" method="POST">
+  {% csrf_token %}
+  {{ form|bulma }}
+  <button class="button is-primary" type="submit">Réserver !</button>
+</form>
+
+<h3 class="title">Localisation</h3>
+
+<table class="table">
+<thead>
+  <tr>
+    <th>Localisation</th>
+    <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+  {% for loc in book.localisation %}
+  <tr>
+    <td>{{loc.localisation}}</td>
+    <td>{{loc.status}}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+{% endblock content %}
+
+{% block modal %}
+<section class="hero is-info">
+<div class="hero-body">
+  <div class="container">
+    <h1 class="title">Recherche</h1>
+    <h2 class="subtitle">Recherchez un livre dans toutes les bibliothèques</h2>
+    <form class="login" action="{% url 'book_search' %}" method="POST">
+      {% csrf_token %}
+      {{ formSearch.search|bulma_inline }}
+      <button class="button is-primary" type="submit">Chercher !</button>
+    </form>
+  </div>
+</div>
+</section>
+{% endblock modal %}

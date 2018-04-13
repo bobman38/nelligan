@@ -12,6 +12,12 @@ class Card(models.Model):
     def __str__(self):
         return self.label
 
+class Library(models.Model):
+    code = models.CharField(max_length=10)
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     barcode = models.CharField(max_length=200)
@@ -23,6 +29,9 @@ class Book(models.Model):
     )
     kind = models.IntegerField(choices=KIND_CHOICES)
     pickup = models.CharField(max_length=200)
+    status = models.CharField(max_length=200, null=True)
     renewed = models.IntegerField(default=0)
+    library = models.ForeignKey(Library, null=True)
     def __str__(self):
         return self.name
+

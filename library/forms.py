@@ -19,3 +19,12 @@ class CardForm(forms.ModelForm):
 
 class BookSearchForm(forms.Form):
     search = forms.CharField()
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['card', 'name', 'library']
+    name = forms.CharField(disabled=True, label='Nom', required=False)
+
+
+

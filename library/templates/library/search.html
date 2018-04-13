@@ -5,15 +5,32 @@
 <section class="hero is-primary">
 <div class="hero-body">
   <div class="container">
-    <h1 class="title">Vos livres</h1>
-    <h2 class="subtitle">Liste consolidée des livres associés à vos cartes.</h2>
+    <h1 class="title">Votre recherche</h1>
+    <h2 class="subtitle">Cet écran permet de réserver des livres</h2>
   </div>
 </div>
 </section>
 {% endblock hero %}
 
 {% block content %}
-<p>Pas de cartes ! <a href="{% url 'card_add' %}">Ajouter au moins une carte à votre compte !</a></p>
+<table class="table">
+<thead>
+  <tr>
+    <th>ISBN</th>
+    <th>Titre</th>
+    <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+  {% for result in results %}
+  <tr>
+    <th>{{result.code}}</th>
+    <td>{{result.title}}</td>
+    <td><a href="{% url 'book_reserve' result.code %}">Réserver !</a></td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
 {% endblock content %}
 
 {% block modal %}
