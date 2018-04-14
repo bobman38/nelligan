@@ -12,8 +12,8 @@
 <tbody>
   {% for book in books %}
   <tr>
-    <td>{{book.name}} <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a></td>
-    <th>{{book.card.label}}</th>
+    <th>{{book.name}} <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a></th>
+    <td>{{book.card.label}}</td>
     <td>{{book.duedate|date:"y-m-d"}} <strong>[{{book.renewed}}]<strong></td>
   </tr>
   {% endfor %}

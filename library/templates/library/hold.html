@@ -25,9 +25,9 @@
 <tbody>
   {% for book in books %}
   <tr>
-    <td>{{book.name}} <a href="{% url 'hold_cancel' book.id %}" title="Annuler"><i class="fa fa-close"></i></a>
-</td>
-    <th>{{book.card.label}}</th>
+    <th>{{book.name}} <a href="{% url 'hold_cancel' book.id %}" title="Annuler"><i class="fa fa-close"></i></a>
+</th>
+    <td>{{book.card.label}}</td>
     <td>{{book.pickup}}</td>
     <td>{{book.status}}</td>
     <td>{{book.duedate|date:"y-m-d"}}</td>
