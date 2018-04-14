@@ -1,26 +1,20 @@
 {% extends "library/index_nocard.html" %}
 
 {% block content %}
-<table class="table">
+<table class="table tablesaw tablesaw-stack" data-tablesaw-mode="stack">
 <thead>
   <tr>
-    <th>Carte</th>
-    <th>Code barre</th>
     <th>Titre</th>
+    <th>Carte</th>
     <th>A rendre le</th>
-    <th>Action</th>
     </tr>
 </thead>
 <tbody>
   {% for book in books %}
   <tr>
+    <td>{{book.name}} <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a></td>
     <th>{{book.card.label}}</th>
-    <td>{{book.barcode}}</td>
-    <td>{{book.name}}</td>
     <td>{{book.duedate|date:"y-m-d"}} <strong>[{{book.renewed}}]<strong></td>
-    <td>
-      <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a>
-    </td>
   </tr>
   {% endfor %}
 </tbody>

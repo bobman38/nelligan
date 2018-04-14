@@ -1,6 +1,11 @@
 {% extends 'bulma/base.html' %}
+{% load static %}
 
 {% block title %}Nelligan++{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'library/css/tablesaw.stackonly.css' %}">
+{% endblock extra_css %}
 
 {% block header %}
   <div class="container">
@@ -63,6 +68,8 @@
 {% endblock footer %}
 
 {% block extra_javascript %}
+<script src="{% static 'library/js/tablesaw.stackonly.js' %}"></script>
+<script src="{% static 'library/js/tablesaw-init.js' %}"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
 
