@@ -12,9 +12,17 @@
 <tbody>
   {% for book in books %}
   <tr>
-    <th>{{book.name}} <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a></th>
+    <th>{{book.name}}
+      {% if not book.fine %}
+      <a href="{% url 'book_renew' book.id %}" title="Renouvellement"><i class="fa fa-refresh"></i></a>
+      {% endif %}
+    </th>
     <td>{{book.card.label}}</td>
-    <td>{{book.duedate|date:"y-m-d"}} <strong>[{{book.renewed}}]<strong></td>
+    <td>{{book.duedate|date:"y-m-d"}} <strong>[{{book.renewed}}]<strong>
+      {% if book.fine %}
+      <strong>[{{book.fine}}$]<strong>
+      {% endif %}
+    </td>
   </tr>
   {% endfor %}
 </tbody>

@@ -5,13 +5,14 @@ import requests
 from django.contrib import messages
 from bs4 import BeautifulSoup
 import time
+import re
 
 NELLIGAN_URL = 'https://nelligan.ville.montreal.qc.ca'
 
 def check_card(code, pin):
     login = {'code': code, 'pin': pin}
     r = requests.post(NELLIGAN_URL + '/patroninfo/?', data = login)
-    #print(r.text)
+    # print(r.text)
     return not "Sorry, the information you submitted was invalid. Please try again." in r.text
 
 def update_book_on_card(card):
@@ -27,7 +28,7 @@ def update_book_on_card(card):
         login = {'code': card.code, 'pin': card.pin}
         s = requests.session()
         r = s.post(NELLIGAN_URL + '/patroninfo/?', data = login)
-
+        # print(r.text)
         # Grab loans (currently taken)
         soup = BeautifulSoup(r.text, 'html.parser')
         items = soup.select("tr.patFuncEntry")
@@ -37,19 +38,14 @@ def update_book_on_card(card):
             book.barcode = item.select_one("td.patFuncBarcode").text
             book.name = item.select_one("span.patFuncTitleMain").string[:200]
             duedate = item.select_one("td.patFuncStatus").text
-            #print(duedate)
+            # print(duedate)
             book.kind = 0
             if duedate != None:
-                duedate = duedate.rstrip().lstrip(" DUE ")
-                renewed = duedate[10:]
-                duedate = duedate[:8]
-                renewed = renewed.lstrip('Renewed ').rstrip('s').rstrip(' time')
-            # format date 17-09-25
-            #print(renewed)
-            #print(duedate)
-            if renewed != '':
-                book.renewed = renewed
-            book.duedate = datetime.strptime(duedate, '%y-%m-%d')
+                due, renewed, fine = duedate_book(duedate)
+            book.renewed = renewed
+            book.fine = fine
+            book.duedate = datetime.strptime(due, '%y-%m-%d')
+            book.duedate = book.duedate.replace(tzinfo=timezone.utc)
             book.save()
 
         # search for fines
@@ -86,6 +82,19 @@ def update_book_on_card(card):
         # lets update lastrefresh first !
         card.lastrefresh = datetime.now(timezone.utc)
         card.save()
+
+def duedate_book(duedate):
+    regexp = ' DUE (?P<due>\d{2}-\d{2}-\d{2})(?: FINE\(up to now\) (?P<fine>.*)\$)?(?:  Renewed (?P<renew>\d) times?)?'
+    m = re.search(regexp, duedate)
+    duedate = m.group('due')
+    renewed = m.group('renew')
+    if renewed is None:
+        renewed = 0
+    else:
+        renewed = int(renewed)
+    fine = m.group('fine')
+
+    return duedate, renewed, fine
 
 def renew_book(book, request):
     card = book.card

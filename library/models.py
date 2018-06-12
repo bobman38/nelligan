@@ -13,7 +13,8 @@ class Card(models.Model):
         return self.label
 
 class Library(models.Model):
-    code = models.CharField(max_length=10)
+    code = models.CharField('Code Resa', max_length=10)
+    codesearch = models.CharField('Code Search', max_length=10)
     name = models.CharField(max_length=200)
     def __str__(self):
         return self.name
@@ -27,6 +28,7 @@ class Book(models.Model):
         (0, 'Loan'),
         (1, 'Hold'),
     )
+    fine = models.CharField(max_length=200, null=True)
     kind = models.IntegerField(choices=KIND_CHOICES)
     pickup = models.CharField(max_length=200)
     status = models.CharField(max_length=200, null=True)

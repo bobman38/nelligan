@@ -19,6 +19,7 @@ class CardForm(forms.ModelForm):
 
 class BookSearchForm(forms.Form):
     search = forms.CharField()
+    library = forms.ModelChoiceField(queryset=Library.objects.all(), empty_label=None)
 
 class BookForm(forms.ModelForm):
     class Meta:

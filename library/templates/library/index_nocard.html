@@ -24,7 +24,7 @@
     <h2 class="subtitle">Recherchez un livre dans toutes les bibliothèques</h2>
     <form class="login" action="{% url 'book_search' %}" method="POST">
       {% csrf_token %}
-      {{ form.search|bulma_inline }}
+      {{ form|bulma_inline }}
       <button class="button is-primary" type="submit">Chercher !</button>
     </form>
   </div>
