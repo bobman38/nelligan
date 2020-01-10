@@ -26,7 +26,7 @@ And then check on http://localhost:8000
 Available [here](http://nelligan.herokuapp.com/). Be nice, it is a free dyno so
 very few DB rows available and it shutdown after 30mn without usage.
 
-## Medium article
+## Blog article
 
-Available [here](https://medium.com/@julienbras/the-web-is-an-api-scrap-it-6e46d496c195).
+Available [here](https://sidoine.org/the-web-is-an-api-scrap-it-6e46d496c195).
 It explains my motivation and my goals !
